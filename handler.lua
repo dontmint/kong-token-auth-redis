@@ -5,13 +5,13 @@
 local BasePlugin = require "kong.plugins.base_plugin"
 local RedisToken = BasePlugin:extend()
 
-local header_filter = require "kong.plugins.redis-token-verify.header_filter"
+local header_filter = require "kong.plugins.kong-token-auth-redis.header_filter"
 
 -- Your plugin handler's constructor. If you are extending the
 -- Base Plugin handler, it's only role is to instanciate itself
 -- with a name. The name is your plugin name as it will be printed in the logs.
 function RedisToken:new()
-  RedisToken.super.new(self, "redis-token-verify")
+  RedisToken.super.new(self, "kong-token-auth-redis")
 end
 
 function RedisToken:access(config)
