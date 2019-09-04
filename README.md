@@ -21,14 +21,16 @@ plugins = kong-token-auth-redis
 ### Example
 
 ```
-curl -X POST http://kong:8001/[services/routes]/[services-id/route-id]/plugins \
-    --data "name=kong-token-auth-redis" \
-    --data "config.redis_token_prefix=Token" \
-    --data "config.redis_host=127.0.0.1" \
-    --data "config.redis_port=6379" \
-    --data "config.redis_password=[redis password]" \
-    --data "config.redis_timeout=2000" \
-    --data "config.token_secret=secret"
+http --form POST 'http://kong:8001/[services/routes]/[services-id/route-id]/plugins' \
+  Postman-Token:c0aae435-e9b0-427a-a12f-8141b9a04350 \
+  cache-control:no-cache \
+  name=kong-token-auth-redis \
+  config.redis_token_prefix=Token \
+  config.redis_host=127.0.0.1 \
+  config.redis_port=6379 \
+  config.redis_password='[redis password]' \
+  config.redis_timeout=2000 \
+  config.token_secret=secret
 ```
 
 Create Token 
