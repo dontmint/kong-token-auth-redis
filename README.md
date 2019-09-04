@@ -22,8 +22,6 @@ plugins = kong-token-auth-redis
 
 ```
 http --form POST 'http://kong:8001/[services/routes]/[services-id/route-id]/plugins' \
-  Postman-Token:c0aae435-e9b0-427a-a12f-8141b9a04350 \
-  cache-control:no-cache \
   name=kong-token-auth-redis \
   config.redis_token_prefix=Token \
   config.redis_host=127.0.0.1 \
