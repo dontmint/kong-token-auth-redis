@@ -42,10 +42,12 @@ function _M.execute(conf, ngx)
     ngx.log(ngx.ERR, "error while fetching redis key: ", err)
     return kong.response.exit(503, "Service Temporarily Unavailable")
   end 
--- Debug message in Error log, development mode
---  if type(verify) == "string" then 
---    ngx.log(ngx.ERR, "VERIFY : " .. verify .. "TOKEN : " .. auth)
---  end
+
+-- Keep Established Redis connection 
+  local ok, err = red:set_keepalive(60000,5000)
+      if not ok then
+        kong.log.err("failed to set Redis keepalive: ", err)
+      end
 
 --  Verify Token secret with config 
   if verify == conf.token_secret then
@@ -55,7 +57,7 @@ function _M.execute(conf, ngx)
   end
   
 -- Close Redis connection 
-   local ok, err = red:close()
+--   local ok, err = red:close()
 end
 
 return _M
