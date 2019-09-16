@@ -9,7 +9,7 @@ function _M.execute(conf, ngx)
   local auth, err = ngx_headers["Authorization"] 
   if not auth then
     ngx.log(ngx.ERR, ngx_headers["Authorization"])
-    return
+    return kong.response.exit(401, "Unauthorized Error")
   end 
   
   local token 
