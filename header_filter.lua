@@ -7,7 +7,7 @@ function _M.execute(conf, ngx)
 -- Get request Header and check if exist
   local ngx_headers = kong.request.get_headers()
   local auth, err = ngx_headers["Authorization"] 
-  if not auth then
+  if not auth and conf.allow_anonymous == 0 then -- 1 = Allow anonymous forward request, 0 = Disallow, return 401 as default
     ngx.log(ngx.ERR, ngx_headers["Authorization"])
     return kong.response.exit(401, "Unauthorized Error")
   end 

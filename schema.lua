@@ -8,6 +8,7 @@ return {
         redis_password = { type = "string" },
         redis_timeout = { type = "number", default = 2000 },
         token_secret = { type = "string", default = "secret" },
+	allow_anonymous = { type = "number", default = 0 }
     },
     self_check = function(schema, plugin_t, dao, is_updating)
         if not plugin_t.redis_host then
