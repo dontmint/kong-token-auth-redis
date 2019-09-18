@@ -2,8 +2,8 @@
 
 1. Install plugin
 ```
-git clone https://github.com/dontmint/kong-token-auth-redis.git /usr/local/share/lua/5.1/kong/plugins/kong-token-auth-redis 
-cd /usr/local/share/lua/5.1/kong/plugins/kong-token-auth-redis
+git clone https://github.com/dontmint/kong-token-auth-redis.git 
+cd kong-token-auth-redis
 luarocks make
 ```
 2. Enable Plugin in kong.conf
