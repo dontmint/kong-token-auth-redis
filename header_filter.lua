@@ -11,6 +11,10 @@ function _M.execute(conf, ngx)
     ngx.log(ngx.ERR, ngx_headers["Authorization"])
     return kong.response.exit(401, "Unauthorized Error")
   end 
+
+  if not auth and conf.allow_anonymous == 1 then
+    return
+  end
   
   local token 
   if not conf.redis_token_prefix then 
