@@ -56,7 +56,7 @@ function _M.execute(conf, ngx)
       end
 
 --  Verify Token secret with config 
-  if verify == conf.token_secret then
+  if tostring(verify) == tostring(conf.token_secret) then
     return
   else
     return kong.response.exit(403, "Token invalid")  
