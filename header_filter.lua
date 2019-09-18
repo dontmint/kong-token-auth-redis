@@ -15,6 +15,8 @@ function _M.execute(conf, ngx)
   local token 
   if string.len(conf.redis_token_prefix) > 0 then 
     token = conf.redis_token_prefix .. ":" .. string.sub(auth, 8) 
+  else
+    token = string.sub(auth, 8)
   end
 
 -- Init Redis connection
