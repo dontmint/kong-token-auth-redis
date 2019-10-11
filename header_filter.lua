@@ -43,7 +43,7 @@ function _M.execute(conf, ngx)
   end
 
 -- Query token in Redis 
-  local verify, err = red:get(token)
+  local verify, err = red:exists(token)
   if err then
     ngx.log(ngx.ERR, "error while fetching redis key: ", err)
     return kong.response.exit(503, "Service Temporarily Unavailable")
