@@ -60,7 +60,10 @@ function _M.execute(conf, ngx)
 --  Verify Token secret with config 
   if tostring(verify) == tostring(conf.token_secret) then
     return
-  else
+  elseif conf.allow_anonymous == 1 then
+    kong.service.request.clear_header("Authorization")
+    return
+  else 
     return kong.response.exit(403, "Token invalid")  
   end
   
