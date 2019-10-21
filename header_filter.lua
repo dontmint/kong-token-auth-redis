@@ -13,19 +13,14 @@ function _M.execute(conf, ngx)
   end 
 
   if not auth and conf.allow_anonymous == 1 then
+    kong.service.request.clear_header("Authorization")
     return
-  end
-  
-  local token 
-  if string.len(conf.redis_token_prefix) > 0 then 
-    token = conf.redis_token_prefix .. ":" .. string.sub(auth, 8)
-  else
-    token = string.sub(auth, 8)
   end
 
 -- Init Redis connection
   local red = redis:new() 
   red:set_timeout(conf.redis_timeout)
+  
 -- Connet to redis
   local ok, err = red:connect(conf.redis_host, conf.redis_port)
   if not ok then
@@ -37,12 +32,19 @@ function _M.execute(conf, ngx)
   if conf.redis_password and conf.redis_password ~= "" then
     local ok, err = red:auth(conf.redis_password)
     if not ok then
-      ngx.log(ngx.ERR, "failed to connect to Redis: ", err)
+      ngx.log(ngx.ERR, "failed to Auth to Redis: ", err)
       return kong.response.exit(503, "Service Temporarily Unavailable")
     end
   end
 
 -- Query token in Redis 
+  local token 
+  if string.len(conf.redis_token_prefix) > 0 then 
+    token = conf.redis_token_prefix .. ":" .. string.sub(auth, 8)
+  else
+    token = string.sub(auth, 8)
+  end
+
   local verify, err = red:exists(token)
   if err then
     ngx.log(ngx.ERR, "error while fetching redis key: ", err)
