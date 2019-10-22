@@ -22,10 +22,18 @@ function _M.execute(conf, ngx)
   red:set_timeout(conf.redis_timeout)
   
 -- Connet to redis
-  local ok, err = red:connect(conf.redis_host, conf.redis_port)
-  if not ok then
-    ngx.log(ngx.ERR, "failed to connect to Redis: ", err)
-    return kong.response.exit(503, "Service Temporarily Unavailable")
+  if string.match(conf.redis_host, "[unix:/^]") then
+    local ok, err = red:connect(conf.redis_host)
+    if not ok then
+      ngx.log(ngx.ERR, "failed to connect to Redis: ", err)
+      return kong.response.exit(503, "Service Temporarily Unavailable")
+    end
+  else
+    local ok, err = red:connect(conf.redis_host, conf.redis_port)
+    if not ok then
+      ngx.log(ngx.ERR, "failed to connect to Redis: ", err)
+      return kong.response.exit(503, "Service Temporarily Unavailable")
+    end
   end
 
 -- Auth Redis connection with password
