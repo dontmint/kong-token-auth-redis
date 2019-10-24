@@ -8,7 +8,6 @@ function _M.execute(conf, ngx)
   local ngx_headers = kong.request.get_headers()
   local auth, err = ngx_headers["Authorization"] 
   if not auth and conf.allow_anonymous == 0 then -- 1 = Allow anonymous forward request, 0 = Disallow, return 401 as default
-    ngx.log(ngx.ERR, ngx_headers["Authorization"])
     return kong.response.exit(401, "Unauthorized Error")
   end 
 
@@ -25,13 +24,11 @@ function _M.execute(conf, ngx)
   if string.match(conf.redis_host, "[unix:/^]") then
     local ok, err = red:connect(conf.redis_host)
     if not ok then
-      ngx.log(ngx.ERR, "failed to connect to Redis: ", err)
       return kong.response.exit(503, "Service Temporarily Unavailable")
     end
   else
     local ok, err = red:connect(conf.redis_host, conf.redis_port)
     if not ok then
-      ngx.log(ngx.ERR, "failed to connect to Redis: ", err)
       return kong.response.exit(503, "Service Temporarily Unavailable")
     end
   end
@@ -40,7 +37,6 @@ function _M.execute(conf, ngx)
   if conf.redis_password and conf.redis_password ~= "" then
     local ok, err = red:auth(conf.redis_password)
     if not ok then
-      ngx.log(ngx.ERR, "failed to Auth to Redis: ", err)
       return kong.response.exit(503, "Service Temporarily Unavailable")
     end
   end
@@ -55,7 +51,6 @@ function _M.execute(conf, ngx)
 
   local verify, err = red:exists(token)
   if err then
-    ngx.log(ngx.ERR, "error while fetching redis key: ", err)
     return kong.response.exit(503, "Service Temporarily Unavailable")
   end 
 
@@ -75,7 +70,7 @@ function _M.execute(conf, ngx)
     return kong.response.exit(403, "Token invalid")  
   end
   
--- Close Redis connection 
+--   Close Redis connection 
 --   local ok, err = red:close()
 end
 
