@@ -1,4 +1,19 @@
-local redis = require "resty.redis"
+-- local redis = require "resty.redis"
+
+local config = {
+    name = "testCluster",                   --rediscluster name
+    dict_name = "kong_locks",  
+    serv_list = {                           --redis cluster node list(host and port),
+      { ip = "42.119.252.100", port = 7000 },
+      { ip = "42.119.252.100", port = 7001 },
+      { ip = "42.119.252.100", port = 7002 },
+    },
+    keepalive_timeout = 60000,              --redis connection pool idle timeout
+    keepalive_cons = 1000,                  --redis connection pool size
+    connection_timout = 1000,               --timeout while connecting
+    max_redirection = 5,                    --maximum retry attempts for redirection
+  }
+local redis = require "kong-redis-cluster"
 
 local _M = {}
 
@@ -17,9 +32,10 @@ function _M.execute(conf, ngx)
   end
 
 -- Init Redis connection
-  local red = redis:new() 
+  local red = redis:new(config) 
   red:set_timeout(conf.redis_timeout)
-  
+ 
+--[[
 -- Connet to redis
   if string.match(conf.redis_host, "[unix:/^]") then
     local ok, err = red:connect(conf.redis_host)
@@ -32,6 +48,7 @@ function _M.execute(conf, ngx)
       return kong.response.exit(503, "Service Temporarily Unavailable")
     end
   end
+]]
 
 -- Auth Redis connection with password
   if conf.redis_password and conf.redis_password ~= "" then
