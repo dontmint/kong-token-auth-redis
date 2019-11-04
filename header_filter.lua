@@ -1,23 +1,23 @@
 -- local redis = require "resty.redis"
 
+local redis = require "kong-redis-cluster-fpt"
+
+local _M = {}
+
+function _M.execute(conf, ngx)
+
 local config = {
-    name = "testCluster",                   --rediscluster name
+    name = "Cluster",                       --rediscluster name
     dict_name = "kong_locks",  
+    enableSlaveRead = true,
     serv_list = {                           --redis cluster node list(host and port),
-      { ip = "42.119.252.100", port = 7000 },
-      { ip = "42.119.252.100", port = 7001 },
-      { ip = "42.119.252.100", port = 7002 },
+      { ip = conf.redis_host , port = conf.redis_port },
     },
     keepalive_timeout = 60000,              --redis connection pool idle timeout
     keepalive_cons = 1000,                  --redis connection pool size
     connection_timout = 1000,               --timeout while connecting
     max_redirection = 5,                    --maximum retry attempts for redirection
   }
-local redis = require "kong-redis-cluster"
-
-local _M = {}
-
-function _M.execute(conf, ngx)
 
 -- Get request Header and check if exist
   local ngx_headers = kong.request.get_headers()

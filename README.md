@@ -1,9 +1,20 @@
 ### INSTALL 
 
-1. Install plugin
+This plugin use to Authenticate request using Redis as a Token Store/Source of true.
+I make 2 branches `master` and `redis-cluster`. If you only have 1 Redis instance, use `master`, It should work fine.
+If you have a Redis cluster, please clone this Repo with option `-b redis-cluster` and follow instruction bellow.
+
+> PLEASE NOTE THIS INSTRUCTION IS FOR BRANCH `REDIS-CLUSTER` ONLY
+> TODO: 
+> - Make `schema.lua` configed with all cluster hosts, currently, It can only using 1 hosts.
+
+1. Install dependencies and plugin
 ```
-git clone https://github.com/dontmint/kong-token-auth-redis.git 
-cd kong-token-auth-redis
+git clone -b redis-cluster https://github.com/dontmint/kong-token-auth-redis.git 
+cd kong-token-auth-redis/kong-redis-cluster-fpt
+make 
+luarocks make 
+cd ..
 luarocks make
 ```
 2. Enable Plugin in kong.conf
@@ -34,7 +45,7 @@ http --form POST 'http://kong:8001/[services/routes]/[services-id/route-id]/plug
 Create Token 
 
 ```
-redis-cli set Token:[Token_id] secret
+redis-cli -c set Token:[Token_id] secret
 ```
 
 Example Valid Token

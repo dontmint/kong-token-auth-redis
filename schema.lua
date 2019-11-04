@@ -2,7 +2,7 @@ local redis = require "resty.redis"
 
 return {
     fields = {
-        redis_token_prefix = { type = "string", default = "" },
+        redis_token_prefix = { type = "string", default = "token" },
         redis_host = { type = "string" },
         redis_port = { type = "number", default = 6379 },
         redis_password = { type = "string" },
