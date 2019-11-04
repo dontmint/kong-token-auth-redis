@@ -1,11 +1,13 @@
 ### INSTALL 
 
-This plugin use to Authenticate request using Redis as a Token Store/Source of true.
+This plugin use to Authenticate request using Redis as a **Token Store/Source** of true.
 I make 2 branches `master` and `redis-cluster`. If you only have 1 Redis instance, use `master`, It should work fine.
 If you have a Redis cluster, please clone this Repo with option `-b redis-cluster` and follow instruction bellow.
 
 > PLEASE NOTE THIS INSTRUCTION IS FOR BRANCH `REDIS-CLUSTER` ONLY
+
 > TODO: 
+
 > - Make `schema.lua` configed with all cluster hosts, currently, It can only using 1 hosts.
 
 1. Install dependencies and plugin
