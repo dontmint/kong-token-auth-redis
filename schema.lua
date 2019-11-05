@@ -8,8 +8,8 @@ return {
     { config = {
         type = "record",
         fields = {
-          { token_secret = { type = "string" }, },
-          { redis_token_prefix = { type = "string", default = "kong" }, },
+          { token_secret = { type = "string", default = "1" }, },
+          { redis_token_prefix = { type = "string", default = "token" }, },
           { redis_cluster = {
               type = "array",
               elements = {
