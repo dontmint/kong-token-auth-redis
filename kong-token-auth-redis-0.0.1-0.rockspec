@@ -9,7 +9,8 @@ description = {
 }
 dependencies = {
   "lua ~> 5.1",
-  "lua-resty-redis ~> 0.26.0"
+  "lua-resty-redis ~> 0.26.0",
+  "kong-redis-cluster-fpt ~> 1.0-1"
 }
 build = {
   type = "builtin",
