@@ -33,7 +33,36 @@ plugins = kong-token-auth-redis
 
 ### Example
 
+To config a redis-cluster, edit cluster config, services, route that apply to in config-cluster.json 
+
+```json
+{
+  "name": "kong-token-auth-redis",
+  "config": {
+    "token_secret": "1",
+    "redis_token_prefix": "token",
+    "redis_cluster": [
+      {
+        "ip": "42.119.252.100",
+        "port": 7000
+      },
+      {
+        "ip": "42.119.252.100",
+        "port": 7001
+      },
+      {
+        "ip": "42.119.252.100",
+        "port": 7002
+      }
+    ]
+  }
+}
+
 ```
+
+```
+http POST http://127.0.0.1:8001/services/local-httpbin/plugins  < config-cluster.json
+
 http --form POST 'http://kong:8001/[services/routes]/[services-id/route-id]/plugins' \
   name=kong-token-auth-redis \
   config.redis_token_prefix=Token \

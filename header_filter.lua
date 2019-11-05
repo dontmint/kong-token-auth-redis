@@ -10,9 +10,12 @@ local config = {
     name = "Cluster",                       --rediscluster name
     dict_name = "kong_locks",  
     enableSlaveRead = true,
+--[[
     serv_list = {                           --redis cluster node list(host and port),
       { ip = conf.redis_host , port = conf.redis_port },
     },
+]]
+    serv_list = conf.redis_cluster,
     keepalive_timeout = 60000,              --redis connection pool idle timeout
     keepalive_cons = 1000,                  --redis connection pool size
     connection_timout = 1000,               --timeout while connecting
