@@ -14,7 +14,7 @@ If you have a Redis cluster, please clone this Repo with option `-b redis-cluste
 ```
 git clone -b redis-cluster https://github.com/dontmint/kong-token-auth-redis.git 
 cd kong-token-auth-redis/kong-redis-cluster-fpt
-make 
+make && make install
 luarocks make 
 cd ..
 luarocks make

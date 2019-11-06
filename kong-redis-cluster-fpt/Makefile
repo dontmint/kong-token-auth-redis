@@ -1,6 +1,8 @@
 INST_PREFIX ?= /usr
-INST_LIBDIR ?= $(INST_PREFIX)/lib/lua/5.1
-INST_LUADIR ?= $(INST_PREFIX)/share/lua/5.1
+#INST_LIBDIR ?= $(INST_PREFIX)/lib/lua/5.1
+INST_LIBDIR ?= /usr/local/lib/lua/5.1
+#INST_LUADIR ?= $(INST_PREFIX)/share/lua/5.1
+INST_LUADIR ?= /usr/local/share/lua/5.1
 INSTALL ?= install
 UNAME ?= $(shell uname)
 
@@ -47,7 +49,7 @@ ${C_SO_NAME} : ${OBJS}
 .PHONY: install
 install:
 	$(INSTALL) -d $(INST_LUADIR)/resty/
-	$(INSTALL) lib/resty/*.lua $(INST_LUADIR)/resty/
+	$(INSTALL) lib/*.lua $(INST_LUADIR)/resty/
 	$(INSTALL) $(C_SO_NAME) $(INST_LIBDIR)/
 
 
