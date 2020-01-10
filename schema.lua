@@ -9,6 +9,7 @@ return {
         type = "record",
         fields = {
           { token_secret = { type = "string", default = "1" }, },
+          { allow_anonymous = { type = "number", default = 0 }, },
           { redis_token_prefix = { type = "string", default = "token" }, },
           { redis_cluster = {
               type = "array",
